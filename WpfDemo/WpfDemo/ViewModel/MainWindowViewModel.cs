@@ -7,13 +7,15 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WpfDemo.Commands;
+using Prism.Mvvm;
+using Prism.Commands;
+//using WpfDemo.Commands;
 using WpfDemo.model;
 using WpfDemo.Services;
 
 namespace WpfDemo.ViewModel
 {
-    class MainWindowViewModel: NotificationObject
+    class MainWindowViewModel: BindableBase    //  NotificationObject
     {
         #region Fields
         private ObservableCollection<string> _combList;
@@ -25,6 +27,9 @@ namespace WpfDemo.ViewModel
 
         private string _lbError;
         private string _bdColor;
+
+
+        private DelegateCommand _addCommand;
         #endregion  //Fields
 
         #region  Constructors
@@ -57,8 +62,9 @@ namespace WpfDemo.ViewModel
             }
             set 
             {
-                _combList = value;
-                RaisePropertyChange("CombList");
+                SetProperty(ref _combList, value);
+                //_combList = value;
+                //RaisePropertyChange("CombList");
             }
         }
 
@@ -70,8 +76,9 @@ namespace WpfDemo.ViewModel
             }
             set
             {
-                _userInfo = value;
-                RaisePropertyChange("UserInfo");
+                SetProperty(ref _userInfo, value);
+                //_userInfo = value;
+                //RaisePropertyChange("UserInfo");
             }
         }
 
@@ -79,10 +86,11 @@ namespace WpfDemo.ViewModel
         {
             get { return _mySelectedItem; }
             set 
-            { 
-                _mySelectedItem = value;
+            {
+                SetProperty(ref _mySelectedItem, value);
+                //_mySelectedItem = value;
                 UpdateUserInfo();
-                RaisePropertyChange("MySelectedItem"); 
+                //RaisePropertyChange("MySelectedItem"); 
             }
         }
 
@@ -102,8 +110,9 @@ namespace WpfDemo.ViewModel
             get { return _nameText; }
             set
             {
-                _nameText = value;
-                RaisePropertyChange("NameText");
+                SetProperty(ref _nameText, value);
+                //_nameText = value;
+                //RaisePropertyChange("NameText");
             }
         }
 
@@ -112,8 +121,9 @@ namespace WpfDemo.ViewModel
             get { return _idText; }
             set
             {
-                _idText = value;
-                RaisePropertyChange("IdText");
+                SetProperty(ref _idText, value);
+                //_idText = value;
+                //RaisePropertyChange("IdText");
             }
         }
 
@@ -122,8 +132,9 @@ namespace WpfDemo.ViewModel
             get { return _lbError; }
             set
             {
-                _lbError = value;
-                RaisePropertyChange("LbError");
+                SetProperty(ref _lbError, value);
+                //_lbError = value;
+                //RaisePropertyChange("LbError");
             }
         }
 
@@ -132,21 +143,27 @@ namespace WpfDemo.ViewModel
             get { return _bdColor; }
             set
             {
-                _bdColor = value;
-                RaisePropertyChange("BdColor");
+                SetProperty(ref _bdColor, value);
+                //_bdColor = value;
+                //RaisePropertyChange("BdColor");
             }
         }
-        
+
 
         #endregion  //Properties
 
 
         #region  ICommand
-        public ICommand AddCommand 
-        {
-            get { return new DelegateCommand(Add); }
-        }
-        private void Add(object parameter)
+
+        public DelegateCommand AddCommand => _addCommand ?? (_addCommand = new DelegateCommand(Add));
+        //public ICommand AddCommand 
+        //{
+        //    get { return new DelegateCommand(Add); }
+        //}
+
+
+
+        private void Add() //object parameter)
         {
             string pattern = @"^[0-9]+$";
             Regex regex = new Regex(pattern);
