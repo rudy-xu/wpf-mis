@@ -9,18 +9,21 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Prism.Mvvm;
 using Prism.Commands;
+
 //using WpfDemo.Commands;
 using WpfDemo.model;
 using WpfDemo.Services;
 
-namespace WpfDemo.ViewModel
+namespace WpfDemo.ViewModels
 {
     class MainWindowViewModel: BindableBase    //  NotificationObject
     {
+
         #region Fields
-        private ObservableCollection<string> _combList;
+        //private ObservableCollection<string> _combList;
+        ObservableCollection<Person> _personList;
         private string _userInfo;
-        private string _mySelectedItem;
+        private Person _mySelectedItem;
 
         private string _nameText;
         private string _idText;
@@ -37,36 +40,47 @@ namespace WpfDemo.ViewModel
         {
             PersonList = PersonDataHelper.GetPersons();
 
-            ObservableCollection<string> userNameList = new ObservableCollection<string>();
+            //ObservableCollection<string> userNameList = new ObservableCollection<string>();
 
-            foreach (Person p in PersonList)
-            {
-                userNameList.Add(p.Name);
-            }
+            //foreach (Person p in PersonList)
+            //{
+            //    userNameList.Add(p.Name);
+            //}
 
-            _combList = userNameList;
-
+            //_combList = userNameList;
+            BdColor = "Black";
             _lbError = "Hidden";
         }
         #endregion  //Constructors
 
 
         #region Properties
-        public ObservableCollection<Person> PersonList { get; private set; }
-
-        public ObservableCollection<string> CombList
+        public ObservableCollection<Person> PersonList
         {
-            get
+            //{ get; private set; }
+            get 
             {
-                return _combList;  
+                return _personList;
             }
             set 
             {
-                SetProperty(ref _combList, value);
-                //_combList = value;
-                //RaisePropertyChange("CombList");
+                SetProperty(ref _personList, value);
             }
         }
+
+        //public ObservableCollection<string> CombList
+        //{
+        //    get
+        //    {
+        //        return _combList;  
+        //    }
+        //    set 
+        //    {
+        //        SetProperty(ref _combList, value);
+        //        //_combList = value;
+        //        //RaisePropertyChange("CombList");
+        //    }
+        //}
 
         public string UserInfo
         {
@@ -82,14 +96,15 @@ namespace WpfDemo.ViewModel
             }
         }
 
-        public string MySelectedItem
+        public Person MySelectedItem
         {
             get { return _mySelectedItem; }
             set 
             {
+                Console.WriteLine(value);
                 SetProperty(ref _mySelectedItem, value);
-                //_mySelectedItem = value;
                 UpdateUserInfo();
+                //_mySelectedItem = value;
                 //RaisePropertyChange("MySelectedItem"); 
             }
         }
@@ -98,7 +113,7 @@ namespace WpfDemo.ViewModel
         {
             foreach (Person p in PersonList)
             {
-                if (p.Name.Equals(MySelectedItem))
+                if (p.Name.Equals(MySelectedItem.Name))
                 {
                     UserInfo = $"Id:{p.Id}, Name:{p.Name}, Job:{p.Job}";
                 }
@@ -149,7 +164,6 @@ namespace WpfDemo.ViewModel
             }
         }
 
-
         #endregion  //Properties
 
 
@@ -178,22 +192,22 @@ namespace WpfDemo.ViewModel
             Person tmpPerson = new Person() { Name = NameText, Id = IdText, Job = "" };
             PersonList.Add(tmpPerson);
 
-            ObservableCollection<string> tempList = new ObservableCollection<string>();
+            //ObservableCollection<string> tempList = new ObservableCollection<string>();
 
-            foreach (Person p in PersonList)
-            {
-                tempList.Add(p.Name);
-            }
+            //foreach (Person p in PersonList)
+            //{
+            //    tempList.Add(p.Name);
+            //}
 
             /*
              * Notes:
-             * _combList = temoList
+             * _combList = tempList
              * The way of above writing can not active Updating <ComboBox> source.
              * Because the "_combList" is just a variable, this step just assignment.
              * So, must distinguish the variable and property, the property is more like a variable of including "get" and "set". You can operate it like variable
              * Normally, the private varibale mustn't be modified, However, the property can modify, so you can define the property to modify private variable.
              */
-            CombList = tempList; //update the source of <ComboBox>
+            //CombList = tempList; //update the source of <ComboBox>
             NameText = "";
             IdText = "";
             LbError = "Hidden";

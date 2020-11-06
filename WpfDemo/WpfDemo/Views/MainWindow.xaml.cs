@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfDemo.ViewModel;
 
-namespace WpfDemo
+namespace WpfDemo.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -26,7 +26,7 @@ namespace WpfDemo
         {
             InitializeComponent();
 
-            this.DataContext = new MainWindowViewModel();
+            //this.DataContext = new MMainWindowVW();
         }
 
     }
