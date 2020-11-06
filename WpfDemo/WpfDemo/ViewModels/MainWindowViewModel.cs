@@ -16,12 +16,12 @@ using WpfDemo.Services;
 
 namespace WpfDemo.ViewModels
 {
-    class MainWindowViewModel: BindableBase    //  NotificationObject
+    public class MainWindowViewModel: BindableBase    //  NotificationObject
     {
 
         #region Fields
         //private ObservableCollection<string> _combList;
-        ObservableCollection<Person> _personList;
+        private ObservableCollection<Person> _personList;
         private string _userInfo;
         private Person _mySelectedItem;
 
@@ -109,7 +109,7 @@ namespace WpfDemo.ViewModels
             }
         }
 
-        private void UpdateUserInfo()
+        public void UpdateUserInfo()
         {
             foreach (Person p in PersonList)
             {
@@ -177,7 +177,7 @@ namespace WpfDemo.ViewModels
 
 
 
-        private void Add() //object parameter)
+        public void Add() //object parameter)
         {
             string pattern = @"^[0-9]+$";
             Regex regex = new Regex(pattern);
